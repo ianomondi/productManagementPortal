@@ -1,0 +1,103 @@
+﻿@model supermarketFrontEnd.Models.Variant
+
+
+
+
+
+@{
+    ViewBag.Title = Model.displayName;
+    ViewBag.PageTitle = Model.displayName;
+    ViewBag.PageSubTitle = Model.displayName + "Details";
+}
+
+@section BreadCrumbs{
+
+    <li class="breadcrumb-item">
+        @Html.ActionLink("Dashboard", "Dashboard", "Home")
+    </li>
+    <li class="breadcrumb-item">
+        <a href="#">@ViewBag.Title</a>
+    </li>
+}
+
+
+<!-- Modal -->
+<form class="modal fade" id="variantOptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Option</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-12">Variant Option Value</label>
+                        <input id="variant_option_val" type="text" name="value" value="" class="form-control" required />
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h5>@ViewBag.Title</h5>
+
+        <span>Variant options for @ViewBag.Title</span>
+        <div class="card-header-right">
+
+
+            <button data-url="@Url.Action("AddOption", new { id = Model.id })" 
+               class="btn btn-success btn-sm varOptionTrigger"
+                id="addOptionBtn"
+                data-title="Add Option"
+               data-toggle="modal" 
+               data-target="#variantOptionModal"
+               title="Add Variant Option">
+                    <i class="fa fa-plus-circle text-white"></i> New Variant Option
+            </button>
+
+
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+
+        @Html.Action("ListVariantOptionsPartial", new { id = Model.id })
+
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,193 @@
+﻿@using supermarketFrontEnd.Models;
+@model supermarketFrontEnd.Models.ViewModels.CreateProductViewModel
+
+@{
+
+    IEnumerable<ProductVariant> variantsForProduct = ViewBag.ProductVariants as IEnumerable<ProductVariant>;
+
+
+    List<VariantOption> options = Model.variantOptions;
+
+    string stringifiedOptions = "";
+
+
+    if (options != null)
+    {
+        stringifiedOptions = Newtonsoft.Json.JsonConvert.SerializeObject(options);
+    }
+
+    int varIndex = 0;
+
+}
+
+<hr />
+
+<div class="col-md-12 d-flex justify-content-between">
+    <h6 class="text-center">Add Product Variants</h6>
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success btn-sm btn_add_var" type="button"><i class="fa fa-plus"></i> Add</button>
+    </div>
+
+</div>
+
+<div class="col-md-12 row mb-2 container_div">
+
+    @if (variantsForProduct != null && variantsForProduct.Count() > 0)
+    {
+        foreach (var varForProduct in variantsForProduct)
+        {
+
+
+
+            <div class="col-md-12  variant_container" data-items="@stringifiedOptions">
+                <div class="row">
+                    <div class="col-md-5">
+
+                        <label class="control-label col-md-12">Variant</label>
+
+                        <select name="productVariants[@varIndex].variantId" class="form-control variant_select" onchange="populateOptions(this);" required>
+
+                            @foreach (var variant in Model.variants)
+                            {
+                                <option value="@variant.id" selected="@(varForProduct.id == variant.id)">@variant.name</option>
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+
+                        <label class="control-label col-md-12">Value</label>
+
+                        <select name="productVariants[@varIndex].variantOptionId" class="form-control optionsSelect" required>
+                        </select>
+
+                    </div>
+                    <div class="col-md-2">
+                        &nbsp; <br />
+                        <button class="btn btn-danger  btn-sm btn_rm_var" type="button"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            varIndex++;
+        }
+    }
+
+    <div class="col-md-12  variant_container" data-items="@stringifiedOptions">
+        <div class="row">
+            <div class="col-md-5">
+
+                <label class="control-label col-md-12">Variant</label>
+
+                <select name="productVariants[@varIndex].variantId" class="form-control variant_select" onchange="populateOptions(this);" required>
+
+                    @foreach (var variant in Model.variants)
+                    {
+                        <option value="@variant.id">@variant.name</option>
+                    }
+
+                </select>
+            </div>
+            <div class="col-md-5">
+
+                <label class="control-label col-md-12">Value</label>
+
+                <select name="productVariants[@varIndex].variantOptionId" class="form-control optionsSelect" required>
+                </select>
+
+            </div>
+            <div class="col-md-2">
+                &nbsp; <br />
+                <button class="btn btn-danger  btn-sm btn_rm_var" type="button"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        let addBtn = $('.btn_add_var');
+        let rmBtn = $('.btn_rm_var');
+
+        $('.variant_select').each(function (i, e) {
+            populateOptions(e);
+        });
+
+        //$('body').on('change','variant_select', function (e) { populateOptions(this); })
+
+
+        addBtn.on('click', function () {
+            let parents = $('.variant_container');
+
+            let parent = parents;
+
+            if (parents.length > 0) {
+                parent = parents[0];
+            }
+
+            $(parent).clone().appendTo('.container_div');
+
+            recountDivs();
+
+        });
+
+        $('body').on('click', '.btn_rm_var', function (e) {
+            let parent = $(this).closest('.variant_container');
+
+            parent.remove();
+
+            recountDivs();
+        })
+
+    });
+
+    function recountDivs() {
+        let parents = $('.variant_container');
+
+
+        parents.each(function (i, e) {
+            $(this).find('.variant_select').attr('name', `productVariants[${i}].variantId`);
+            $(this).find('.optionsSelect').attr('name', `productVariants[${i}].variantOptionId`);
+
+            populateOptions($(this).find('.variant_select'));
+        });
+    }
+
+
+    function populateOptions(variantSelect) {
+
+        //debugger;
+
+        let selectedVariant = $(variantSelect).val();
+
+        let parent = $(variantSelect).closest('.variant_container');
+
+        let optionSelect = parent.find('.optionsSelect');
+
+        const options = parent.data("items");
+
+
+        let optionsForVariant = options.filter(x => x.variantId == selectedVariant);
+
+        optionSelect.empty();
+
+        optionsForVariant.forEach(x => {
+            let option = `<option value="${x.id}">${x.value}</option>`;
+
+            optionSelect.append(option);
+        });
+
+
+
+    }
+</script>
+

@@ -1,0 +1,54 @@
+﻿@using supermarketFrontEnd.Models;
+@model supermarketFrontEnd.Models.ViewModels.CreateProductViewModel
+
+
+@{
+
+    string selectedIdsStr = "";
+
+    List<CompositeProduct> compositeProducts = ViewBag.CompositeProducts as List<CompositeProduct>;
+
+    if(compositeProducts != null)
+    {
+        List<int> selectedIds = compositeProducts.Select(x => x.relatedId).ToList();
+
+        selectedIdsStr = string.Join(",", selectedIds);
+    }
+
+
+
+}
+
+<hr />
+
+<div class="col-md-12">
+    <h6 class="">Add Composite Products</h6>
+</div>
+
+<div class="col-md-12 row mb-2">
+    
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+
+                <label class="control-label col-md-12">Composite Products</label>
+
+
+                <select name="compositeProductIds" class="form-control multi_select" data-values="@selectedIdsStr">
+
+                    @foreach (var related in Model.relatedProducts)
+                    {
+                        <option value="@related.Value">@related.Text</option>
+                    }
+
+                </select>
+
+
+
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,85 @@
+﻿@model supermarketFrontEnd.Models.Category
+
+
+
+@{
+    ViewBag.Title = "Edit category";
+    ViewBag.PageTitle = "Edit category";
+    ViewBag.PageSubTitle = "Category Form";
+
+    SelectList categories = ViewBag.CategoryId as SelectList;
+}
+
+
+
+
+@section BreadCrumbs{
+
+    <li class="breadcrumb-item">
+        @Html.ActionLink("Dashboard", "Dashboard", "Home")
+    </li>
+    <li class="breadcrumb-item">
+        @Html.ActionLink("Categorys List", "Index", "Categorys")
+    </li>
+    <li class="breadcrumb-item">
+        <a href="#">@ViewBag.Title</a>
+    </li>
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h5>@ViewBag.Title</h5>
+
+        <span>Category form</span>
+    </div>
+    <div class="card-block table-border-style">
+
+        @using (Html.BeginForm("Edit", "Categories", FormMethod.Post, htmlAttributes: new { @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div>
+                @Html.HiddenFor(m => m.id)
+            </div>
+
+            
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            
+
+
+
+            <div class="form-group mb-2">
+                <input type="submit" value="Update" class="btn btn-primary btn-sm" />
+            </div>
+        }
+
+
+        <hr class="mt-3" />
+        <div class="d-flex justify-content-start">
+            <a href="@Url.Action("Index")" class="btn btn-sm btn-outline-dark">
+                <i class="fa fa-list-ol"></i>
+                Back to List
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

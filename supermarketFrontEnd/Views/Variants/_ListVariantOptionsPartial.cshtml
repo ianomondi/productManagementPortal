@@ -1,0 +1,51 @@
+﻿@model IEnumerable<supermarketFrontEnd.Models.VariantOption>
+
+@if (Model != null && Model.ToList().Count > 0)
+{
+    <div class="table-responsive">
+
+        <table class="table table-hover data-table">
+
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.value)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="delete_ancestor">
+                        <td>
+                            @item.value
+                        </td>
+                        
+                        <td>
+                            <button data-url="@Url.Action("EditOption", new { id = item.id })" 
+                                    data-value="@item.value" 
+                                    data-toggle="modal" 
+                                    data-title="Edit Option"
+                                    data-target="#variantOptionModal"
+                                    class="varOptionTrigger btn btn-sm btn-outline-primary mr-2 mb-2">
+                                            <i class="fa fa-edit"></i> Edit
+                            </button>
+                            <a href="@Url.Action("DeleteOption", new { id = item.id })" class="btn btn-sm btn-outline-danger mb-2 delete_ajax"><i class="fa fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">@ViewBag.Message</div>
+}
+

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<supermarketFrontEnd.Models.Variant>
+
+
+
+
+
+@{
+    ViewBag.Title = "Variants";
+    ViewBag.PageTitle = "Variants";
+    ViewBag.PageSubTitle = "Variant List";
+}
+
+@section BreadCrumbs{
+
+    <li class="breadcrumb-item">
+        @Html.ActionLink("Dashboard", "Dashboard", "Home")
+    </li>
+    <li class="breadcrumb-item">
+        <a href="#">@ViewBag.Title</a>
+    </li>
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h5>@ViewBag.Title</h5>
+
+        <span>All @ViewBag.Title</span>
+        <div class="card-header-right">
+
+
+            <a href="@Url.Action("Create")" class="btn btn-success btn-sm" title="Add Variant"><i class="fa fa-plus-circle text-white"></i> New Variant</a>
+
+
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+
+        @if (Model != null && Model.ToList().Count > 0)
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover data-table">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.id)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.displayName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.frontEndName)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="delete_ancestor">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.displayName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.frontEndName)
+                                </td>
+
+                                <td>
+                                    <a href="@Url.Action("Edit", new { id = item.id })" class=" btn btn-sm btn-outline-primary mr-2 mb-2"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="@Url.Action("Details", new { id = item.id })" class=" btn btn-sm btn-outline-success mr-2 mb-2"><i class="fa fa-list"></i> Details</a>
+                                    <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-sm btn-outline-danger mb-2 delete_ajax"><i class="fa fa-trash"></i> Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">No @ViewBag.Title</div>
+        }
+
+    </div>
+</div>
+
+
+
+
+
